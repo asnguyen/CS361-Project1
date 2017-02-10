@@ -1,0 +1,8 @@
+write lyle lobj 1738
+write lyle hobj 8371
+write hal lobj 0
+write hal hobj 1029
+read lyle lobj 
+read lyle hobj
+read hal lobj
+read hal hobj
