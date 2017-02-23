@@ -11,7 +11,7 @@ public class Instruction
 	public Instruction(String line)
 	{
 		String[] instruction = line.split("\\s");
-		if(instruction.length<=2 || instruction.length>=5)
+		if(instruction.length<2 || instruction.length>=5)
 		{
 			type = "BAD";
 			subject = "";
@@ -21,11 +21,72 @@ public class Instruction
 		else 
 		{
 			type = instruction[0];
-			subject = instruction[1];
-			object=instruction[2];
-			if(instruction.length == 3)
+			if(type.equalsIgnoreCase("run"))
 			{
-				if(type.equalsIgnoreCase("write"))
+				if(instruction.length==2)
+					subject = instruction[1];
+				else
+				{
+					type = "BAD";
+					subject = "";
+					object = "";
+					value = -1;
+				}
+			}
+			else if(type.equalsIgnoreCase("write"))
+			{
+				if(instruction.length == 4 && isNumeric(instruction[3]))
+				{
+					subject = instruction[1];
+					object  = instruction[2];
+					value   = value = Integer.parseInt(instruction[3]);
+				}
+				else
+				{
+					type = "BAD";
+					subject = "";
+					object = "";
+					value = -1;
+				}
+			}
+			else if(type.equalsIgnoreCase("read"))
+			{
+				if(instruction.length == 3)
+				{
+					subject = instruction[1];
+					object  = instruction[2];
+				}
+				else
+				{
+					type = "BAD";
+					subject = "";
+					object = "";
+					value = -1;
+				}
+			}
+			else if(type.equalsIgnoreCase("destroy"))
+			{
+				if(instruction.length == 3)
+				{
+					subject = instruction[1];
+					object  = instruction[2];
+				}
+				else
+				{
+					type = "BAD";
+					subject = "";
+					object = "";
+					value = -1;
+				}
+			}
+			else if(type.equalsIgnoreCase("create"))
+			{
+				if(instruction.length == 3)
+				{
+					subject = instruction[1];
+					object  = instruction[2];
+				}
+				else
 				{
 					type = "BAD";
 					subject = "";
@@ -35,18 +96,10 @@ public class Instruction
 			}
 			else
 			{
-				if(!isNumeric(instruction[3]) || type.equalsIgnoreCase("read"))
-				{
-					type = "BAD";
-					subject = "";
-					object = "";
-					value = -1;
-				}
-				else
-				{
-					value = Integer.parseInt(instruction[3]);
-				}
-
+				type = "BAD";
+				subject = "";
+				object = "";
+				value = -1;
 			}
 		}
 

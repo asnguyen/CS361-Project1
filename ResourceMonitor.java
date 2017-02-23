@@ -33,9 +33,14 @@ public class ResourceMonitor
 		object = objectSearch(sObject,object);
 		subject = subjectSearch(sSubject,subject);
 
-		if((i.type.equalsIgnoreCase("read")|| i.type.equalsIgnoreCase("write"))&&(!subject.name.equals("SEARCH FAILED") && !object.name.equals("SEARCH FAILED")))
+		if(i.type.equalsIgnoreCase("create") && !subject.name.equals("SEARCH FAILED") && object.name.equals("SEARCH FAILED"))
+		{
 			return true;
-
+		}
+		if((i.type.equalsIgnoreCase("read") || i.type.equalsIgnoreCase("write") || i.type.equalsIgnoreCase("destroy"))&&(!subject.name.equals("SEARCH FAILED") && !object.name.equals("SEARCH FAILED")))
+		{	
+			return true;
+		}
 		return false;
 	}
 
@@ -55,12 +60,31 @@ public class ResourceMonitor
 				return true;
 			}
 		}
+		if(i.type.equalsIgnoreCase("destroy"))
+		{
+			if(subject.security<= oq.security)
+			{
+				return true;
+			}
+		}
 		return false;
 	}
 
 	public void perform(Instruction i)
 	{
-		if(safeInstruction(i) && BLP(i) && i.type.equalsIgnoreCase("read"))
+		if(i.type.equalsIgnoreCase("run"))
+		{
+			subject.run();
+		}
+		else if(safeInstruction(i) && i.type.equalsIgnoreCase("destroy"))
+		{
+			manager.destroy(subject, object);
+		}
+		else if(safeInstruction(i) && i.type.equalsIgnoreCase("create"))
+		{
+			manager.create(subject,i.object);
+		}
+		else if(safeInstruction(i) && BLP(i) && i.type.equalsIgnoreCase("read"))
 		{
 			manager.read(subject,object);
 		}
@@ -145,6 +169,21 @@ public class ResourceMonitor
 		public void read(SecureSubject s, SecureObject o)
 		{
 			s.temp = o.value;
+		}
+
+		public void create(SecureSubject s, String name)
+		{
+			SecureObject o = new SecureObject();
+			o = objectSearch(name,o);
+			if(o.name.equalsIgnoreCase("SEARCH FAILED"))
+				objectList.add(new SecureObject(name, s.security));					//will this be a problem since the new object was created on the stack?
+			//nothing
+		}
+
+		public void destroy(SecureSubject s, SecureObject o)
+		{
+			objectList.remove(o);												//removes it from the list
+			o = null; 															//will this "destory" the object?
 		}
 
 	}

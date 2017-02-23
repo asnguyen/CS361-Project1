@@ -6,6 +6,8 @@ public class SecureSubject
 	String name;
 	int temp;
 	int security;
+	String []bite;
+	String []output;
 
 	public SecureSubject()
 	{
@@ -31,5 +33,10 @@ public class SecureSubject
 	public boolean equals(SecureSubject rhs)
 	{
 		return (name.equals(rhs.name) && security == rhs.security);
+	}
+
+	public void run()
+	{
+		
 	}
 }
