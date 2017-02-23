@@ -33,11 +33,16 @@ public class ResourceMonitor
 		object = objectSearch(sObject,object);
 		subject = subjectSearch(sSubject,subject);
 
-		if(i.type.equalsIgnoreCase("create") && !subject.name.equals("SEARCH FAILED") && object.name.equals("SEARCH FAILED"))
+		if(i.type.equalsIgnoreCase("run") && !subject.name.equals("SEARCH FAILED") )
 		{
 			return true;
 		}
-		if((i.type.equalsIgnoreCase("read") || i.type.equalsIgnoreCase("write") || i.type.equalsIgnoreCase("destroy"))&&(!subject.name.equals("SEARCH FAILED") && !object.name.equals("SEARCH FAILED")))
+		if(i.type.equalsIgnoreCase("create") && !subject.name.equals("SEARCH FAILED") && object.name.equals("SEARCH FAILED"))
+		{
+			//System.out.println(i.type.equalsIgnoreCase("create") && !subject.name.equals("SEARCH FAILED") && object.name.equals("SEARCH FAILED"));
+			return true;
+		}
+		if((i.type.equalsIgnoreCase("read") || i.type.equalsIgnoreCase("write") || i.type.equalsIgnoreCase("destroy")) || i.type.equalsIgnoreCase("create") &&(!subject.name.equals("SEARCH FAILED") && !object.name.equals("SEARCH FAILED")))
 		{	
 			return true;
 		}
@@ -62,7 +67,7 @@ public class ResourceMonitor
 		}
 		if(i.type.equalsIgnoreCase("destroy"))
 		{
-			if(subject.security<= oq.security)
+			if(subject.security<= object.security)
 			{
 				return true;
 			}
@@ -130,20 +135,34 @@ public class ResourceMonitor
 
 	public void viewCurrentState(Instruction i)
 	{
+		String instruction = i.type;
 		if(!safeInstruction(i))
 		{
 			System.out.println("Bad Instruction\nThe current state is:");
 
 		}
-		else if(i.type.equalsIgnoreCase("write"))
+		switch (i.type.toLowerCase())
 		{
-			System.out.println(i.subject+" writes value of "+i.value+" to "+i.object);
-			System.out.println("The current state is:");
-		}
-		else if(i.type.equalsIgnoreCase("read"))
-		{
-			System.out.println(i.subject+" reads "+i.object);
-			System.out.println("The current state is:");
+			case "write":
+				System.out.println(i.subject+" writes value of "+i.value+" to "+i.object);
+				System.out.println("The current state is:");
+				break;
+			case "read":
+				System.out.println(i.subject+" reads "+i.object);
+				System.out.println("The current state is:");
+				break;
+			case "create":
+				System.out.println(i.subject+" creates "+i.object);
+				System.out.println("The current state is:");
+				break;
+			case "destroy":
+				System.out.println(i.subject+" destroys "+i.object);
+				System.out.println("The current state is:");
+				break;
+			case "run":
+				System.out.println(i.subject + " runs");
+				System.out.println("The current state is:");
+				break;
 		}
 		for(int j = 0; j<objectList.size();++j)
 		{

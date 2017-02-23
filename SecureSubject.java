@@ -6,8 +6,8 @@ public class SecureSubject
 	String name;
 	int temp;
 	int security;
-	String []bite;
-	String []output;
+	String sbyte="";
+	String output="";
 
 	public SecureSubject()
 	{
@@ -30,13 +30,13 @@ public class SecureSubject
 		security = 0;
 	}
 
-	public boolean equals(SecureSubject rhs)
-	{
-		return (name.equals(rhs.name) && security == rhs.security);
-	}
-
 	public void run()
 	{
-		
+		if(sbyte.length()>=8)
+		{
+			output.concat(sbyte);
+			sbyte = "";
+		}
+		sbyte.concat(""+temp);
 	}
 }

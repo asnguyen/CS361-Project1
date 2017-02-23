@@ -20,9 +20,4 @@ public class SecureObject
 		value = 0;
 		security = lvl;
 	}
-
-	public boolean equals(SecureObject rhs)
-	{
-		return (name.equals(rhs.name) && value == rhs.value && security == rhs.value);
-	}
 }

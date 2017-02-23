@@ -1,0 +1,5 @@
+create hal hobj
+create lyle lobj
+destroy hal lobj
+destroy lyle hobj
+run lyle
