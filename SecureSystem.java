@@ -37,11 +37,59 @@ public class SecureSystem
 		while(sc.hasNextLine())
 		{
 			String s = sc.nextLine();
-			instruct = new Instruction(s);
-			monitor.perform(instruct);
+			String binaryString = toBinary(s).toString();
+			for(int i = 0; i<binaryString.length(); ++i)
+			{
+				//how Hal will transmit the bit
+				if(binaryString.charAt(i) == '1')	//to transmit 1
+				{
+					instruct = new Instruction("run hal");
+					monitor.perform(instruct);
+					instruct = new Instruction("create hal obj");
+					monitor.perform(instruct);
+				}
+				else								//to transmit 0
+				{
+					instruct = new Instruction("run hal");
+					monitor.perform(instruct);
+				}
+				//*************************
+
+				//how Lyle will get the info from hal
+				instruct = new Instruction("create lyle obj");
+				monitor.perform(instruct);
+				instruct = new Instruction("write lyle obj");
+				monitor.perform(instruct);
+				instruct = new Instruction("read lyle obj");
+				monitor.perform(instruct);
+				instruct = new Instruction("destroy lyle obj");
+				monitor.perform(instruct);
+				instruct = new Instruction("run lyle");
+				monitor.perform(instruct);
+				//*************************
+
+			}
 		}
+		System.out.println(subject2.output);
 
 	}
+
+	public static StringBuilder toBinary(String s)
+	{
+		byte[] bytes = s.getBytes();
+		StringBuilder binary = new StringBuilder();
+		for (byte b : bytes)
+  		{
+     		int val = b;
+     		for (int i = 0; i < 8; i++)
+     		{
+        		binary.append((val & 128) == 0 ? 0 : 1);
+        		val <<= 1;
+     		}
+  		}
+  		return binary;
+	}
+
 }
 
 

@@ -101,7 +101,7 @@ public class ResourceMonitor
 		{
 			manager.read(subject,zero);
 		}
-		viewCurrentState(i);
+		//viewCurrentState(i);
 	}
 
 	private SecureObject objectSearch(String s, SecureObject object)

@@ -32,11 +32,18 @@ public class SecureSubject
 
 	public void run()
 	{
-		if(sbyte.length()>=8)
+		if(security == 0)
 		{
-			output.concat(sbyte);
-			sbyte = "";
+			if(sbyte.length()>=8)
+			{
+				output+=(sbyte);
+				sbyte = "";
+			}
+			sbyte+=(""+temp);
 		}
-		sbyte.concat(""+temp);
+		else
+		{
+			//do nothing
+		}
 	}
 }
