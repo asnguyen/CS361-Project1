@@ -77,7 +77,7 @@ public class ResourceMonitor
 
 	public void perform(Instruction i)
 	{
-		if(i.type.equalsIgnoreCase("run"))
+		if(safeInstruction(i) && i.type.equalsIgnoreCase("run"))
 		{
 			subject.run();
 		}

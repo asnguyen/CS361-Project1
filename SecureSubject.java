@@ -34,16 +34,41 @@ public class SecureSubject
 	{
 		if(security == 0)
 		{
-			if(sbyte.length()>=8)
+			if(sbyte.length()<8)
 			{
-				output+=(sbyte);
-				sbyte = "";
+				sbyte+=(""+temp);
+				if(sbyte.length() == 8)
+				{
+					char c = (char)Integer.parseInt(sbyte,2);
+					output+=c;
+					sbyte = "";
+				}
 			}
-			sbyte+=(""+temp);
 		}
 		else
 		{
 			//do nothing
 		}
+		temp=0;
+	}
+	public void clear()
+	{
+		output = "";
+		sbyte = "";
+		temp=0;
+
 	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
